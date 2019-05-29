@@ -1,0 +1,35 @@
+// Add Shortcode
+function custom_shortcode( $atts ) {
+
+	// Attributes
+	$atts = shortcode_atts(
+		array(
+			'post_type' => '',
+			'number' => '1',
+			'slug' => '',
+		),
+		$atts
+	);
+
+	 $args = array(     
+	       'post_type' => $atts[post_type],
+	       'posts_per_page' => $atts[number],
+	       'orderby' => 'tittle',
+	       'order' => 'DESC',
+	       'category_name' => $atts[slug]
+	     );
+	     
+	     $cadena = "<ul>";
+	     
+	     $data = new WP_Query($args); 
+	     while($data->have_posts()): $data->the_post();
+	?>
+	 
+	    <?php $cadena.= "<li>" . the_title() . "</li>" ?>
+	
+	<?php endwhile; wp_reset_postdata(); 
+	
+	  return $cadena;
+
+}
+add_shortcode( 'custom_post', 'custom_shortcode' );
