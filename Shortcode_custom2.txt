@@ -1,0 +1,61 @@
+// Add Shortcode
+function custom_shortcode( $atts ) {
+
+	// Attributes
+	$atts = shortcode_atts(
+		array(
+			'post' => '',
+			'number' => '',
+			'slug' => '',
+		),
+		$atts
+	);
+
+	 $args = array(     
+	       'post_type' => $atts['post'],
+	       'posts_per_page' => $atts['number'],
+	       'orderby' => 'tittle',
+	       'order' => 'DESC',
+	       'category_name' => $atts['slug']
+	     );
+	     
+	    $cadena.= '<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">';
+		$cadena.= ' <ol class="carousel-indicators">';
+	
+		for($i=0; $i <= $attr['numbre']; $i++){
+				if($i==0){
+					$cadena.= '<li data-target="#carousel-example-generic" data-slide-to="'.$i.' class="active"></li>';
+				}else{
+					$cadena.= '<li data-target="#carousel-example-generic" data-slide-to="'.$i.'"></li>';
+				}
+				
+		}
+	
+		$cadena.= '</ol>';
+		$cadena.= '<div class="carousel-inner" role="listbox">';
+	     
+	     $data = new WP_Query($args); 
+	     while($data->have_posts()): $data->the_post();
+	?>
+	 
+	    <?php $cadena .= "<li>" . get_the_title() . "</li>" ?>
+		<?php $cadena.= '<div class="item active">'?>
+		<?php $cadena.= get_the_post_thumbnail()?>
+    </div>
+	
+	   <?php endwhile; wp_reset_postdata();?> 
+	
+	<?php 
+	     $cadena.= '<a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+					<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+					<span class="sr-only">Previous</span>
+				  </a>
+				  <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+					<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+					<span class="sr-only">Next</span>
+				  </a>
+				</div>';
+		 return $cadena;
+
+}
+add_shortcode( 'custom_post', 'custom_shortcode' );
