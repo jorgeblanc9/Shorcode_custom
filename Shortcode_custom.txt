@@ -1,0 +1,37 @@
+// Add Shortcode
+function custom_shortcode( $atts ) {
+	
+	extract(shortcode_atts(array(
+       'post' => 'slider_principal',
+		'number' => 5,
+		'slug' => ''
+   ), $atts));
+
+	
+	
+	 $cadena = "<ul>";
+	
+	 $args = array(     
+	       'post_type' => $atts[post],
+	       'posts_per_page' => $atts[number],
+	       'orderby' => 'tittle',
+	       'order' => 'DESC',
+	       'category_name' => $atts[slug]
+	     );
+	     
+	    
+	     
+	     $data = new WP_Query($args); 
+	     while($data->have_posts()): $data->the_post();
+ ?>
+	
+		<?php $cadena.= '<ul>'.the_tittle().'</ul>'?>
+	
+        <?php endwhile; wp_reset_postdata();
+		
+		$cadena.= "</ul>";
+		
+	  	return $cadena;
+
+}
+add_shortcode( 'custom_post', 'custom_shortcode' );
